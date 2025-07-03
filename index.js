@@ -257,7 +257,6 @@ function question(query) {
   }
   const count = await question(`${colors.cyan}How many swaps to perform (PHRS-USDT/USDT-PHRS)? ${colors.reset}`);
   try {
-    while (true) {
       for (const pk of privateKeys) {
       const wallet = new ethers.Wallet(pk, provider);
       logger.success(`Wallet loaded: ${wallet.address}`);
@@ -270,7 +269,6 @@ function question(query) {
       } catch (e) {
         logger.error(`Error: ${e.message}`);
       }}
-    }
   } catch (err) {
     logger.error(`Wallet setup failed: ${err.message}`);
     process.exit(1);
