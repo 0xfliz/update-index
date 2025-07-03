@@ -87,21 +87,6 @@ function getRandomUserAgent() {
   return USER_AGENTS[Math.floor(Math.random() * USER_AGENTS.length)];
 }
 
-function loadPrivateKeys() {
-  let keys = [];
-  let i = 1;
-  while (process.env[`PRIVATE_KEY_${i}`]) {
-    const pk = process.env[`PRIVATE_KEY_${i}`];
-    if (pk.startsWith('0x') && pk.length === 66) {
-      keys.push(pk);
-    } else {
-      logger.warn(`Invalid PRIVATE_KEY_${i} in .env, skipping...`);
-    }
-    i++;
-  }
-  return keys;
-}
-
 async function fetchWithTimeout(url, timeout = 15000) {
   try {
     const source = axios.CancelToken.source();
@@ -265,10 +250,10 @@ function question(query) {
         const countNum = parseInt(count);
         if (isNaN(countNum) || countNum < 1) throw new Error('Invalid swap count');
         await batchSwap(wallet, countNum);
-        logger.success('Swap cycle completed!');
       } catch (e) {
         logger.error(`Error: ${e.message}`);
       }}
+    logger.success('Swap completed for all wallets!');
   } catch (err) {
     logger.error(`Wallet setup failed: ${err.message}`);
     process.exit(1);
